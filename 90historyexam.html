@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian History & Philosophy Quiz</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .quiz-container {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            max-width: 900px;
+            width: 100%;
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            text-align: center;
+            color: #4a148c;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            color: #444;
+            border-left: 4px solid #007bff;
+        }
+        .question {
+            font-size: 19px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        .options {
+            list-style: none;
+            padding: 0;
+        }
+        .options li {
+            margin-bottom: 12px;
+            padding: 12px;
+            background-color: #f1f3f5;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        .options li:hover {
+            background-color: #e3f2fd;
+            transform: translateX(5px);
+        }
+        .options input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        .feedback {
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 17px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            transition: all 0.4s ease;
+            opacity: 0;
+        }
+        .feedback.show {
+            opacity: 1;
+        }
+        .correct { 
+            color: #2e7d32; 
+            background-color: #e8f5e9;
+            border: 2px solid #4caf50;
+            animation: bounceIn 0.5s ease;
+        }
+        .incorrect { 
+            color: #c62828; 
+            background-color: #ffebee;
+            border: 2px solid #f44336;
+            animation: shake 0.5s ease;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .explanation {
+            margin-top: 12px;
+            padding: 12px;
+            background-color: #fff8e1;
+            border-left: 4px solid #ffb300;
+            border-radius: 6px;
+            font-size: 15px;
+            color: #5d4037;
+            line-height: 1.5;
+        }
+        .explanation strong {
+            color: #ff6f00;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        button {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        #timer {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #d32f2f;
+            margin: 15px 0;
+            padding: 10px;
+            background-color: #ffebee;
+            border-radius: 8px;
+            border: 1px solid #ffcdd2;
+        }
+        #result {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(45deg, #4caf50, #66bb6a);
+            color: white;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        #submit-form {
+            margin-top: 20px;
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            border: 1px dashed #007bff;
+        }
+        input[type="email"] {
+            padding: 12px;
+            width: 80%;
+            max-width: 400px;
+            margin: 10px 0;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .progress-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4caf50, #66bb6a);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        .question-counter {
+            text-align: center;
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        .current-score {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            color: #4a148c;
+            margin: 15px 0;
+            padding
+
+: 10px;
+            background-color: #f3e5f5;
+            border-radius: 8px;
+            border: 1px solid #ce93d8;
+        }
+        .attempt-info {
+            font-size: 14px;
+            color: #e53935;
+            font-weight: bold;
+            margin-top: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Indian History & Philosophy Quiz</h1>
+        <p class="subtitle">90 Questions • 1 Minute Each • +1 Correct, -1 Wrong</p>
+        
+        <div class="instructions">
+            <strong>Instructions:</strong> 
+            Questions and options shuffled every time. 
+            <strong>Correct/Incorrect + Explanation shown immediately after each answer.</strong>
+            You can go back/forward, submit anytime.
+        </div>
+
+        <div class="question-counter" id="question-counter"></div>
+        <div class="current-score" id="current-score">Current Score: 0</div>
+        <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+
+        <div id="quiz"></div>
+        <div id="timer">Time left: 60 seconds</div>
+        
+        <div class="navigation">
+            <button id="prev" onclick="prevQuestion()">Previous</button>
+            <button id="next" onclick="nextQuestion()">Next</button>
+            <button id="submit" onclick="submitQuiz()" style="background: linear-gradient(45deg, #d32f2f, #f44336);">Submit Quiz</button>
+        </div>
+
+        <div id="result" style="display: none;"></div>
+        
+        <div id="submit-form" style="display: none;">
+            <h3 style="color: #4a148c;">Submit Your Result</h3>
+            <p>Enter your email to send results to the professor:</p>
+            <input type="email" id="user-email" placeholder="your.email@college.edu.in" required>
+            <br>
+            <button onclick="sendResults()" style="background: linear-gradient(45deg, #388e3c, #4caf50);">Send Results via Email</button>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            { 
+                question: "What does 'Astika' mean in Indian philosophy?", 
+                options: ["Schools that accept the Vedas", "Schools that reject the Vedas", "Materialist school", "Focus on meditation"], 
+                correct: "Schools that accept the Vedas",
+                explanation: "Astika refers to six orthodox schools (Nyaya, Vaisheshika, Samkhya, Yoga, Mimamsa, Vedanta) that accept the Vedas' authority, unlike Nastika schools (Buddhism, Jainism, Charvaka)."
+            },
+            { 
+                question: "Which school focuses on logic and reasoning?", 
+                options: ["Nyaya", "Vedanta", "Yoga", "Buddhism"], 
+                correct: "Nyaya",
+                explanation: "Nyaya, founded by Gautama, specializes in logic and epistemology, using pramanas (perception, inference, analogy, testimony) to establish valid knowledge."
+            },
+            { 
+                question: "What is the goal of most Indian philosophical schools?", 
+                options: ["Moksha or Nirvana", "Wealth accumulation", "Political power", "Scientific discovery"], 
+                correct: "Moksha or Nirvana",
+                explanation: "Moksha (liberation) or Nirvana (enlightenment) is the ultimate aim, freeing the soul from the cycle of birth and death (samsara)."
+            },
+            { 
+                question: "Which period is associated with the Rigveda?", 
+                options: ["Vedic Period (c. 1500–500 BCE)", "Indus Valley (3300–1300 BCE)", "Upanishadic Period", "Colonial Period"], 
+                correct: "Vedic Period (c. 1500–500 BCE)",
+                explanation: "The Rigveda, oldest of the four Vedas, was composed during the Early Vedic Period (c. 1500–1000 BCE) by Indo-Aryans."
+            },
+            { 
+                question: "What is Brahman in Upanishadic thought?", 
+                options: ["Ultimate reality", "Individual soul", "Cosmic order", "Suffering"], 
+                correct: "Ultimate reality",
+                explanation: "Brahman is the infinite, unchanging reality in Upanishads. Advaita Vedanta equates Atman (self) with Brahman."
+            },
+            { 
+                question: "Who founded Buddhism?", 
+                options: ["Siddhartha Gautama", "Mahavira", "Adi Shankaracharya", "Kapila"], 
+                correct: "Siddhartha Gautama",
+                explanation: "Siddhartha Gautama, the Buddha, founded Buddhism after attaining enlightenment at Bodh Gaya (c. 5th century BCE)."
+            },
+            { 
+                question: "What is the first Noble Truth in Buddhism?", 
+                options: ["Life is suffering (Dukkha)", "Cause of suffering", "Cessation of suffering", "Eightfold Path"], 
+                correct: "Life is suffering (Dukkha)",
+                explanation: "The First Noble Truth states that life inherently involves suffering (Dukkha) due to birth, aging, illness, and death."
+            },
+            { 
+                question: "What does Ahimsa mean in Jainism?", 
+                options: ["Non-violence", "Truthfulness", "Non-stealing", "Celibacy"], 
+                correct: "Non-violence",
+                explanation: "Ahimsa, the core Jain principle, mandates non-violence toward all living beings, influencing diet and lifestyle."
+            },
+            { 
+                question: "Which school is associated with Anekantavada?", 
+                options: ["Jainism", "Buddhism", "Nyaya", "Vedanta"], 
+                correct: "Jainism",
+                explanation: "Anekantavada ('many-sidedness') in Jainism teaches that truth is relative and multifaceted, promoting tolerance."
+            },
+            { 
+                question: "Who founded Nyaya school?", 
+                options: ["Gautama", "Kanada", "Kapila", "Patanjali"], 
+                correct: "Gautama",
+                explanation: "Akṣapāda Gautama authored the Nyaya Sutras, establishing Nyaya as a school of logical analysis."
+            },
+            { 
+                question: "What is the focus of Vaisheshika?", 
+                options: ["Ontological classification", "Logic", "Dualism", "Rituals"], 
+                correct: "Ontological classification",
+                explanation: "Vaisheshika, by Kanada, classifies reality into six padarthas (substance, quality, action, generality, inherence, individuality)."
+            },
+            { 
+                question: "Samkhya is known for its?", 
+                options: ["Dualism (Purusha vs Prakriti)", "Non-dualism", "Atomism", "Meditation"], 
+                correct: "Dualism (Purusha vs Prakriti)",
+                explanation: "Samkhya posits dualism between Purusha (consciousness) and Prakriti (matter), with liberation achieved by their separation."
+            },
+            { 
+                question: "Who is the founder of Yoga Sutras?", 
+                options: ["Patanjali", "Jaimini", "Adi Shankaracharya", "Madhvacharya"], 
+                correct: "Patanjali",
+                explanation: "Patanjali’s Yoga Sutras (c. 400 CE) outline the eight-limbed path (Ashtanga Yoga) for spiritual discipline."
+            },
+            { 
+                question: "Mimamsa focuses on?", 
+                options: ["Vedic rituals", "Meditation", "Non-violence", "Logic"], 
+                correct: "Vedic rituals",
+                explanation: "Purva Mimamsa, by Jaimini, emphasizes Vedic rituals (karma-kanda) to uphold dharma and gain merit."
+            },
+            { 
+                question: "Advaita Vedanta was founded by?", 
+                options: ["Adi Shankaracharya", "Ramanujacharya", "Madhvacharya", "Kapila"], 
+                correct: "Adi Shankaracharya",
+                explanation: "Adi Shankaracharya (8th century CE) founded Advaita Vedanta, teaching non-dualism where Brahman alone is real."
+            },
+            { 
+                question: "What is Wahdat al-Wujud in Sufism?", 
+                options: ["Unity of being", "Non-violence", "Karma", "Dharma"], 
+                correct: "Unity of being",
+                explanation: "Wahdat al-Wujud, by Ibn Arabi, posits that all existence is a manifestation of one divine reality."
+            },
+            { 
+                question: "Who founded Sikhism?", 
+                options: ["Guru Nanak", "Mahavira", "Buddha", "Shankaracharya"], 
+                correct: "Guru Nanak",
+                explanation: "Guru Nanak (1469–1539 CE) founded Sikhism, emphasizing one God (Ik Onkar) and equality."
+            },
+            { 
+                question: "Brahmo Samaj was founded by?", 
+                options: ["Raja Ram Mohan Roy", "Swami Vivekananda", "Dayananda Saraswati", "Gandhi"], 
+                correct: "Raja Ram Mohan Roy",
+                explanation: "Raja Ram Mohan Roy founded Brahmo Samaj (1828) to reform Hinduism, banning sati and idolatry."
+            },
+            { 
+                question: "What is Satyagraha?", 
+                options: ["Non-violent resistance", "Armed struggle", "Ritual sacrifice", "Meditation"], 
+                correct: "Non-violent resistance",
+                explanation: "Satyagraha, Gandhi’s philosophy, uses non-violent resistance to uphold truth and fight injustice."
+            },
+            { 
+                question: "Who wrote Gitanjali?", 
+                options: ["Rabindranath Tagore", "Gandhi", "Nehru", "Ambedkar"], 
+                correct: "Rabindranath Tagore",
+                explanation: "Rabindranath Tagore’s Gitanjali, a collection of poems, earned him the Nobel Prize in 1913."
+            },
+            { 
+                question: "Who founded the Mughal Empire?", 
+                options: ["Babur", "Akbar", "Aurangzeb", "Shah Jahan"], 
+                correct: "Babur",
+                explanation: "Babur won the First Battle of Panipat (1526) against Ibrahim Lodi, founding the Mughal Empire."
+            },
+            { 
+                question: "Battle of Plassey was in?", 
+                options: ["1757", "1526", "1857", "1947"], 
+                correct: "1757",
+                explanation: "The Battle of Plassey (1757) saw Robert Clive defeat Siraj-ud-Daulah, establishing British control."
+            },
+            { 
+                question: "Who built the Taj Mahal?", 
+                options: ["Shah Jahan", "Akbar", "Babur", "Aurangzeb"], 
+                correct: "Shah Jahan",
+                explanation: "Shah Jahan commissioned the Taj Mahal (1632–1653) as a mausoleum for his wife Mumtaz Mahal."
+            },
+            { 
+                question: "Revolt of 1857 started in?", 
+                options: ["Meerut", "Delhi", "Calcutta", "Bombay"], 
+                correct: "Meerut",
+                explanation: "The Revolt of 1857 began in Meerut on May 10, 1857, sparked by sepoy discontent over greased cartridges."
+            },
+            { 
+                question: "Indian National Congress founded in?", 
+                options: ["1885", "1905", "1920", "1947"], 
+                correct: "1885",
+                explanation: "Founded in 1885 by A.O. Hume, the Indian National Congress became a key platform for India’s independence."
+            },
+            { 
+                question: "Dandi Salt March was in?", 
+                options: ["1930", "1920", "1942", "1919"], 
+                correct: "1930",
+                explanation: "Gandhi led the Dandi Salt March in 1930 to protest British salt taxes, sparking civil disobedience."
+            },
+            { 
+                question: "Quit India Movement year?", 
+                options: ["1942", "1930", "1920", "1857"], 
+                correct: "1942",
+                explanation: "Launched in 1942 by Gandhi, the Quit India Movement demanded immediate British withdrawal."
+            },
+            { 
+                question: "Partition of India in?", 
+                options: ["1947", "1857", "1905", "1919"], 
+                correct: "1947",
+                explanation: "India was partitioned in 1947 into India and Pakistan under the Mountbatten Plan."
+            },
+            { 
+                question: "Who was the first PM of India?", 
+                options: ["Jawaharlal Nehru", "Gandhi", "Patel", "Ambedkar"], 
+                correct: "Jawaharlal Nehru",
+                explanation: "Jawaharlal Nehru served as India’s first Prime Minister from 1947 to 1964."
+            },
+            { 
+                question: "Indian Constitution adopted in?", 
+                options: ["1950", "1947", "1949", "1951"], 
+                correct: "1950",
+                explanation: "The Indian Constitution was adopted on January 26, 1950, marking Republic Day."
+            },
+            { 
+                question: "What is Rita in Vedic thought?", 
+                options: ["Cosmic order", "Suffering", "Liberation", "Self"], 
+                correct: "Cosmic order",
+                explanation: "Rita is the Vedic principle of cosmic order and truth governing natural and moral laws."
+            },
+            { 
+                question: "Tat Tvam Asi means?", 
+                options: ["You are that", "Life is suffering", "Non-violence", "Logic"], 
+                correct: "You are that",
+                explanation: "Tat Tvam Asi ('You are that') from Chandogya Upanishad equates Atman with Brahman."
+            },
+            { 
+                question: "Anatta in Buddhism means?", 
+                options: ["No-self", "Eternal soul", "Karma", "Dharma"], 
+                correct: "No-self",
+                explanation: "Anatta teaches there is no permanent self or soul, a key Buddhist doctrine."
+            },
+            { 
+                question: "Syadvada in Jainism is?", 
+                options: ["Doctrine of relativism", "Non-violence", "Middle Path", "Atomism"], 
+                correct: "Doctrine of relativism",
+                explanation: "Syadvada ('maybe-ism') in Jainism holds that all statements are conditionally true."
+            },
+            { 
+                question: "Pramanas in Nyaya are?", 
+                options: ["Means of knowledge", "Categories of reality", "Vows", "Paths"], 
+                correct: "Means of knowledge",
+                explanation: "Nyaya recognizes four pramanas: perception, inference, analogy, and testimony for valid knowledge."
+            },
+            { 
+                question: "Atomistic theory in?", 
+                options: ["Vaisheshika", "Samkhya", "Yoga", "Mimamsa"], 
+                correct: "Vaisheshika",
+                explanation: "Vaisheshika’s atomistic theory posits that all material objects are composed of indivisible atoms."
+            },
+            { 
+                question: "Gunas in Samkhya are?", 
+                options: ["Sattva, Rajas, Tamas", "Perception, Inference", "Yama, Niyama", "Ahimsa, Satya"], 
+                correct: "Sattva, Rajas, Tamas",
+                explanation: "Samkhya’s three gunas (qualities) of Prakriti are Sattva (goodness), Rajas (passion), Tamas (ignorance)."
+            },
+            { 
+                question: "Ashtanga Yoga has how many limbs?", 
+                options: ["8", "5", "4", "7"], 
+                correct: "8",
+                explanation: "Patanjali’s Ashtanga Yoga includes eight limbs: Yama, Niyama, Asana, Pranayama, Pratyahara, Dharana, Dhyana, Samadhi."
+            },
+            { 
+                question: "Dharma in Mimamsa is?", 
+                options: ["Ethical duty via rituals", "Liberation", "No-self", "Unity"], 
+                correct: "Ethical duty via rituals",
+                explanation: "Mimamsa views dharma as ethical duties fulfilled through Vedic rituals, ensuring cosmic order."
+            },
+            { 
+                question: "Maya in Advaita is?", 
+                options: ["Illusion", "Reality", "Karma", "Soul"], 
+                correct: "Illusion",
+                explanation: "Maya in Advaita Vedanta is the illusion that veils Brahman, causing the world to appear real."
+            },
+            { 
+                question: "Dvaita Vedanta founder?", 
+                options: ["Madhvacharya", "Shankaracharya", "Ramanujacharya", "Patanjali"], 
+                correct: "Madhvacharya",
+                explanation: "Madhvacharya (13th century) founded Dvaita Vedanta, advocating dualism between God and souls."
+            },
+            { 
+                question: "Vishishtadvaita by?", 
+                options: ["Ramanujacharya", "Madhvacharya", "Shankaracharya", "Kapila"], 
+                correct: "Ramanujacharya",
+                explanation: "Ramanujacharya’s Vishishtadvaita (qualified non-dualism) sees souls and world as real parts of Brahman."
+            },
+            { 
+                question: "Sufism arrived in India around?", 
+                options: ["1200 CE", "8th century BCE", "1500 BCE", "1947"], 
+                correct: "1200 CE",
+                explanation: "Sufism entered India around 1200 CE with saints like Moinuddin Chishti, spreading mystical Islam."
+            },
+            { 
+                question: "Din-i-Ilahi by?", 
+                options: ["Akbar", "Aurangzeb", "Babur", "Shah Jahan"], 
+                correct: "Akbar",
+                explanation: "Akbar introduced Din-i-Ilahi, a syncretic religion blending Islam, Hinduism, and others, in 1582."
+            },
+            { 
+                question: "Ik Onkar in Sikhism means?", 
+                options: ["One God", "Non-violence", "Karma", "Samsara"], 
+                correct: "One God",
+                explanation: "Ik Onkar ('One Supreme Reality') is the core Sikh belief in a single, formless God."
+            },
+            { 
+                question: "Arya Samaj founded by?", 
+                options: ["Dayananda Saraswati", "Ram Mohan Roy", "Vivekananda", "Gandhi"], 
+                correct: "Dayananda Saraswati",
+                explanation: "Dayananda Saraswati founded Arya Samaj in 1875 to revive Vedic traditions and reject idolatry."
+            },
+            { 
+                question: "Ramakrishna Mission by?", 
+                options: ["Swami Vivekananda", "Tagore", "Gandhi", "Ambedkar"], 
+                correct: "Swami Vivekananda",
+                explanation: "Swami Vivekananda established the Ramakrishna Mission in 1897 for social service and Vedanta."
+            },
+            { 
+                question: "Ahimsa in Gandhi’s philosophy from?", 
+                options: ["Jainism and Gita", "Vedas", "Nyaya", "Samkhya"], 
+                correct: "Jainism and Gita",
+                explanation: "Gandhi’s ahimsa (non-violence) was inspired by Jainism’s strict non-violence and the Gita’s selfless action."
+            },
+            { 
+                question: "Vishwa-Manav in Tagore means?", 
+                options: ["World-human", "Cosmic order", "No-self", "Illusion"], 
+                correct: "World-human",
+                explanation: "Tagore’s Vishwa-Manav (‘world-human’) reflects his vision of universal humanism and unity."
+            },
+            { 
+                question: "First Battle of Panipat year?", 
+                options: ["1526", "1757", "1764", "1857"], 
+                correct: "1526",
+                explanation: "The First Battle of Panipat (1526) saw Babur defeat Ibrahim Lodi, founding the Mughal Empire."
+            },
+            { 
+                question: "Mansabdari system by?", 
+                options: ["Akbar", "Babur", "Shah Jahan", "Aurangzeb"], 
+                correct: "Akbar",
+                explanation: "Akbar’s Mansabdari system assigned military and administrative ranks to nobles."
+            },
+            { 
+                question: "Nadir Shah invaded in?", 
+                options: ["1739", "1526", "1947", "1857"], 
+                correct: "1739",
+                explanation: "Nadir Shah’s invasion in 1739 culminated in the Battle of Karnal and the sack of Delhi."
+            },
+            { 
+                question: "Battle of Buxar year?", 
+                options: ["1764", "1757", "1526", "1905"], 
+                correct: "1764",
+                explanation: "The Battle of Buxar (1764) solidified British control after defeating Mughal and Nawab forces."
+            },
+            { 
+                question: "Subsidiary Alliance by?", 
+                options: ["Lord Wellesley", "Lord Dalhousie", "Robert Clive", "Warren Hastings"], 
+                correct: "Lord Wellesley",
+                explanation: "Lord Wellesley’s Subsidiary Alliance (1798) forced Indian states to accept British troops."
+            },
+            { 
+                question: "Doctrine of Lapse by?", 
+                options: ["Lord Dalhousie", "Lord Wellesley", "Clive", "Curzon"], 
+                correct: "Lord Dalhousie",
+                explanation: "Dalhousie’s Doctrine of Lapse annexed princely states without a male heir."
+            },
+            { 
+                question: "Abolition of Sati in?", 
+                options: ["1829", "1856", "1835", "1905"], 
+                correct: "1829",
+                explanation: "Sati was banned in 1829 by Lord William Bentinck, influenced by Raja Ram Mohan Roy."
+            },
+            { 
+                question: "Jallianwala Bagh Massacre year?", 
+                options: ["1919", "1920", "1930", "1942"], 
+                correct: "1919",
+                explanation: "The Jallianwala Bagh Massacre (1919) saw General Dyer order firing on unarmed civilians."
+            },
+            { 
+                question: "Swadeshi Movement after?", 
+                options: ["Partition of Bengal", "Revolt of 1857", "Quit India", "Non-Cooperation"], 
+                correct: "Partition of Bengal",
+                explanation: "The Swadeshi Movement (1905) protested the British partition of Bengal, promoting Indian goods."
+            },
+            { 
+                question: "Swaraj is my birthright by?", 
+                options: ["Bal Gangadhar Tilak", "Gandhi", "Nehru", "Bose"], 
+                correct: "Bal Gangadhar Tilak",
+                explanation: "Tilak’s slogan ‘Swaraj is my birthright’ inspired the nationalist movement."
+            },
+            { 
+                question: "Champaran Satyagraha year?", 
+                options: ["1917", "1930", "1942", "1920"], 
+                correct: "1917",
+                explanation: "Gandhi’s Champaran Satyagraha (1917) supported indigo farmers against British exploitation."
+            },
+            { 
+                question: "Non-Cooperation Movement year?", 
+                options: ["1920-22", "1930", "1942", "1857"], 
+                correct: "1920-22",
+                explanation: "Gandhi launched the Non-Cooperation Movement (1920–22) to boycott British goods and institutions."
+            },
+            { 
+                question: "Chauri Chaura incident led to?", 
+                options: ["Withdrawal of Non-Cooperation", "Start of Quit India", "Partition", "Independence"], 
+                correct: "Withdrawal of Non-Cooperation",
+                explanation: "Violence at Chauri Chaura (1922) led Gandhi to suspend the Non-Cooperation Movement."
+            },
+            { 
+                question: "INA formed by?", 
+                options: ["Subhas Chandra Bose", "Gandhi", "Nehru", "Patel"], 
+                correct: "Subhas Chandra Bose",
+                explanation: "Subhas Chandra Bose formed the Indian National Army (INA) to fight British rule with Japanese support."
+            },
+            { 
+                question: "Lahore Resolution year?", 
+                options: ["1940", "1906", "1885", "1947"], 
+                correct: "1940",
+                explanation: "The Lahore Resolution (1940) by the Muslim League demanded a separate Muslim state."
+            },
+            { 
+                question: "Mountbatten Plan year?", 
+                options: ["1947", "1946", "1942", "1935"], 
+                correct: "1947",
+                explanation: "The Mountbatten Plan (1947) outlined India’s partition and independence."
+            },
+            { 
+                question: "Integration of princely states by?", 
+                options: ["Sardar Patel", "Nehru", "Gandhi", "Ambedkar"], 
+                correct: "Sardar Patel",
+                explanation: "Sardar Patel, with V.P. Menon, integrated over 500 princely states into India."
+            },
+            { 
+                question: "Operation Polo for?", 
+                options: ["Hyderabad", "Kashmir", "Junagadh", "Bengal"], 
+                correct: "Hyderabad",
+                explanation: "Operation Polo (1948) annexed Hyderabad into India under Sardar Patel."
+            },
+            { 
+                question: "Constituent Assembly chairman?", 
+                options: ["Dr. B.R. Ambedkar", "Nehru", "Patel", "Gandhi"], 
+                correct: "Dr. B.R. Ambedkar",
+                explanation: "Dr. B.R. Ambedkar chaired the drafting committee of the Indian Constitution."
+            },
+            { 
+                question: "Nastika schools reject?", 
+                options: ["Vedas’ authority", "Logic", "Meditation", "Ethics"], 
+                correct: "Vedas’ authority",
+                explanation: "Nastika schools (Buddhism, Jainism, Charvaka) reject the Vedas as authoritative, unlike Astika schools."
+            },
+            { 
+                question: "Middle Path in Buddhism avoids?", 
+                options: ["Extremes of indulgence and asceticism", "Rituals", "Karma", "Dharma"], 
+                correct: "Extremes of indulgence and asceticism",
+                explanation: "The Middle Path avoids extreme indulgence and extreme asceticism, promoting moderation."
+            },
+            { 
+                question: "Five Vows in Jainism include?", 
+                options: ["Ahimsa, Satya, Asteya, Brahmacharya, Aparigraha", "Yama, Niyama", "Pramanas", "Gunas"], 
+                correct: "Ahimsa, Satya, Asteya, Brahmacharya, Aparigraha",
+                explanation: "Jainism’s five vows are non-violence, truth, non-stealing, celibacy, and non-possession."
+            },
+            { 
+                question: "Jiva and Ajiva in?", 
+                options: ["Jainism", "Buddhism", "Nyaya", "Vedanta"], 
+                correct: "Jainism",
+                explanation: "Jainism categorizes existence into Jiva (souls) and Ajiva (non-living matter, time, space)."
+            },
+            { 
+                question: "Satkaryavada in?", 
+                options: ["Samkhya", "Nyaya", "Vaisheshika", "Yoga"], 
+                correct: "Samkhya",
+                explanation: "Satkaryavada in Samkhya holds that effects pre-exist in their cause within Prakriti."
+            },
+            { 
+                question: "Chitta-Vritti-Nirodha in?", 
+                options: ["Yoga", "Mimamsa", "Vedanta", "Buddhism"], 
+                correct: "Yoga",
+                explanation: "Patanjali’s Yoga defines yoga as ‘Chitta-Vritti-Nirodha’ (cessation of mental fluctuations)."
+            },
+            { 
+                question: "Apurva in Mimamsa is?", 
+                options: ["Merit from rituals", "Illusion", "No-self", "Atoms"], 
+                correct: "Merit from rituals",
+                explanation: "Apurva is the unseen merit accumulated from Vedic rituals, leading to future benefits."
+            },
+            { 
+                question: "Fivefold difference in?", 
+                options: ["Dvaita Vedanta", "Advaita", "Vishishtadvaita", "Samkhya"], 
+                correct: "Dvaita Vedanta",
+                explanation: "Madhvacharya’s Dvaita Vedanta posits five distinctions: God, souls, matter, God-souls, souls-matter."
+            },
+            { 
+                question: "Chishti order in Sufism by?", 
+                options: ["Moinuddin Chishti", "Ibn Arabi", "Kabir", "Nanak"], 
+                correct: "Moinuddin Chishti",
+                explanation: "Moinuddin Chishti brought the Chishti Sufi order to India, emphasizing love and devotion."
+            },
+            { 
+                question: "Kabir blended?", 
+                options: ["Sufi and Bhakti", "Vedic and Upanishadic", "Nyaya and Vaisheshika", "Yoga and Mimamsa"], 
+                correct: "Sufi and Bhakti",
+                explanation: "Kabir (15th century) merged Sufi mysticism and Bhakti devotion, rejecting rituals."
+            },
+            { 
+                question: "Theosophical Society co-founded by?", 
+                options: ["H.P. Blavatsky", "Vivekananda", "Roy", "Tagore"], 
+                correct: "H.P. Blavatsky",
+                explanation: "H.P. Blavatsky co-founded the Theosophical Society (1875) to promote universal brotherhood."
+            },
+            { 
+                question: "Sarvodaya in Gandhi means?", 
+                options: ["Welfare of all", "Non-violence", "Truth", "Self-reliance"], 
+                correct: "Welfare of all",
+                explanation: "Sarvodaya, inspired by Ruskin, means ‘upliftment of all’ in Gandhi’s philosophy."
+            },
+            { 
+                question: "Visva-Bharati founded by?", 
+                options: ["Tagore", "Gandhi", "Vivekananda", "Ambedkar"], 
+                correct: "Tagore",
+                explanation: "Tagore founded Visva-Bharati University (1921) to blend Indian and global education."
+            },
+            { 
+                question: "Sulh-i-Kul by?", 
+                options: ["Akbar", "Aurangzeb", "Babur", "Jahangir"], 
+                correct: "Akbar",
+                explanation: "Akbar’s Sulh-i-Kul (‘universal tolerance’) promoted harmony among all religions."
+            },
+            { 
+                question: "Zabt system for?", 
+                options: ["Land revenue", "Military ranks", "Art", "Religion"], 
+                correct: "Land revenue",
+                explanation: "Akbar’s Zabt system measured land to assess revenue, ensuring fair taxation."
+            },
+            { 
+                question: "Permanent Settlement by?", 
+                options: ["Lord Cornwallis", "Dalhousie", "Wellesley", "Clive"], 
+                correct: "Lord Cornwallis",
+                explanation: "Cornwallis’s Permanent Settlement (1793) fixed land revenue in Bengal, benefiting zamindars."
+            },
+            { 
+                question: "Macaulay’s Minute year?", 
+                options: ["1835", "1829", "1856", "1905"], 
+                correct: "1835",
+                explanation: "Macaulay’s Minute (1835) introduced English education in India to create a loyal elite."
+            },
+            { 
+                question: "Mangal Pandey associated with?", 
+                options: ["Revolt of 1857", "Quit India", "Non-Cooperation", "Swadeshi"], 
+                correct: "Revolt of 1857",
+                explanation: "Mangal Pandey, a sepoy, sparked the 1857 Revolt by attacking British officers in Barrackpore."
+            },
+            { 
+                question: "Surat Split year?", 
+                options: ["1907", "1885", "1905", "1920"], 
+                correct: "1907",
+                explanation: "The Surat Split (1907) divided the Congress into Moderates and Extremists over methods."
+            },
+            { 
+                question: "Gandhi-Irwin Pact year?", 
+                options: ["1931", "1922", "1942", "1930"], 
+                correct: "1931",
+                explanation: "The Gandhi-Irwin Pact (1931) ended civil disobedience, releasing political prisoners."
+            },
+            { 
+                question: "Government of India Act 1935 proposed?", 
+                options: ["Federal structure", "Independence", "Partition", "Dyarchy"], 
+                correct: "Federal structure",
+                explanation: "The 1935 Act proposed a federal India with provincial autonomy, though never fully implemented."
+            },
+            { 
+                question: "Cripps Mission year?", 
+                options: ["1942", "1946", "1930", "1919"], 
+                correct: "1942",
+                explanation: "The Cripps Mission (1942) offered dominion status post-WWII, rejected by Congress."
+            },
+            { 
+                question: "Cabinet Mission year?", 
+                options: ["1946", "1942", "1947", "1935"], 
+                correct: "1946",
+                explanation: "The Cabinet Mission (1946) proposed a federal India but failed to resolve partition issues."
+            },
+            { 
+                question: "Tryst with Destiny speech by?", 
+                options: ["Nehru", "Gandhi", "Patel", "Bose"], 
+                correct: "Nehru",
+                explanation: "Nehru’s ‘Tryst with Destiny’ speech on August 14, 1947, marked India’s independence."
+            }
+        ];
+
+        // Shuffle questions once at load
+        let shuffledQuestions = [...questions].sort(() => Math.random() - 0.5);
+        let currentQuestion = 0;
+        let answers = new Array(shuffledQuestions.length).fill(null);
+        let timerInterval;
+        const timeLimit = 60;
+        let currentScore = 0;
+
+        function updateProgress() {
+            const progress = ((currentQuestion + 1) / shuffledQuestions.length) * 100;
+            document.getElementById('progress-fill').style.width = progress + '%';
+            document.getElementById('question-counter').innerText = `Question ${currentQuestion + 1} of ${shuffledQuestions.length}`;
+            document.getElementById('current-score').innerText = `Current Score: ${currentScore}`;
+        }
+
+        function showQuestion() {
+            updateProgress();
+            const q = shuffledQuestions[currentQuestion];
+            const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+            
+            let html = `<div class="question">${currentQuestion + 1}. ${q.question}</div>
+                        <ul class="options">`;
+            shuffledOptions.forEach(opt => {
+                const isChecked = answers[currentQuestion] === opt ? 'checked' : '';
+                const isCorrect = opt === q.correct;
+                const isSelected = answers[currentQuestion] === opt;
+                
+                let liStyle = '';
+                if (answers[currentQuestion] !== null) {
+                    if (isCorrect) {
+                        liStyle = 'style="border: 2px solid #4caf50; background-color: #e8f5e9;"';
+                    } else if (isSelected) {
+                        liStyle = 'style="border: 2px solid #f44336; background-color: #ffebee;"';
+                    }
+                }
+
+                html += `<li ${liStyle}><input type="radio" name="q${currentQuestion}" value="${opt}" ${isChecked} onclick="selectAnswer('${opt.replace(/'/g, "\\'")}')">${opt}</li>`;
+            });
+            html += `</ul>`;
+
+            // Feedback
+            if (answers[currentQuestion] !== null) {
+                const isCorrect = answers[currentQuestion] === q.correct;
+                const feedbackText = isCorrect ? 'Correct! +1' : `Incorrect! -1<br><span class="attempt-info">You chose: "${answers[currentQuestion]}"</span>`;
+                html += `<div id="feedback-${currentQuestion}" class="feedback ${isCorrect ? 'correct' : 'incorrect'} show">
+                            ${feedbackText}
+                         </div>`;
+                html += `<div class="explanation">
+                            <strong>Correct Answer:</strong> ${q.correct}<br>
+                            <strong>Explanation:</strong> ${q.explanation}
+                         </div>`;
+            } else {
+                html += `<div id="feedback-${currentQuestion}" class="feedback"></div>`;
+            }
+
+            document.getElementById('quiz').innerHTML = html;
+            startTimer();
+            updateNavigationButtons();
+        }
+
+        function selectAnswer(selected) {
+            const q = shuffledQuestions[currentQuestion];
+            const wasUnanswered = answers[currentQuestion] === null;
+            const wasCorrect = answers[currentQuestion] === q.correct;
+            const isCorrect = selected === q.correct;
+
+            // Update score
+            if (wasUnanswered) {
+                currentScore += isCorrect ? 1 : -1;
+            } else if (wasCorrect && !isCorrect) {
+                currentScore -= 2;
+            } else if (!wasCorrect && isCorrect) {
+                currentScore += 2;
+            }
+
+            answers[currentQuestion] = selected;
+            document.getElementById('current-score').innerText = `Current Score: ${currentScore}`;
+            showQuestion();
+        }
+
+        function startTimer() {
+            clearInterval(timerInterval);
+            let timeLeft = timeLimit;
+            document.getElementById('timer').innerText = `Time left: ${timeLeft} seconds`;
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('timer').innerText = `Time left: ${timeLeft} seconds`;
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    if (answers[currentQuestion] === null) {
+                        answers[currentQuestion] = '';
+                    }
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        function updateNavigationButtons() {
+            document.getElementById('prev').disabled = currentQuestion === 0;
+            document.getElementById('next').disabled = currentQuestion === shuffledQuestions.length - 1;
+        }
+
+        function prevQuestion() {
+            if (currentQuestion > 0) {
+                currentQuestion--;
+                showQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < shuffledQuestions.length - 1) {
+                currentQuestion++;
+                showQuestion();
+            }
+        }
+
+        function submitQuiz() {
+            clearInterval(timerInterval);
+            let correctCount = 0, wrongCount = 0, skippedCount = 0;
+
+            answers.forEach((ans, idx) => {
+                if (!ans) skippedCount++;
+                else if (ans === shuffledQuestions[idx].correct) correctCount++;
+                else wrongCount++;
+            });
+
+            const finalScore = correctCount - wrongCount;
+
+            const resultHTML = `
+                <h2>Quiz Complete!</h2>
+                <p><strong>Final Score: ${finalScore} / ${shuffledQuestions.length}</strong></p>
+                <p>Correct: ${correctCount} (+${correctCount})</p>
+                <p>Wrong: ${wrongCount} (-${wrongCount})</p>
+                <p>Skipped: ${skippedCount} (0)</p>
+                <p><em>Submitted on: November 07, 2025 08:48 AM IST</em></p>
+            `;
+            document.getElementById('result').innerHTML = resultHTML;
+            document.getElementById('result').style.display = 'block';
+
+            document.getElementById('quiz').innerHTML = '';
+            document.getElementById('timer').innerHTML = '';
+            document.querySelector('.navigation').style.display = 'none';
+            document.querySelector('.progress-bar').style.display = 'none';
+            document.querySelector('.question-counter').style.display = 'none';
+            document.querySelector('.current-score').style.display = 'none';
+
+            document.getElementById('submit-form').style.display = 'block';
+        }
+
+        function sendResults() {
+            const email = document.getElementById('user-email').value.trim();
+            if (!email || !email.includes('@')) {
+                alert('Please enter a valid email.');
+                return;
+            }
+
+            const scoreText = document.getElementById('result').innerText;
+            const subject = `Quiz Result - ${email} - Score: ${scoreText.match(/Final Score: ([\d-]+)/)[1]}`;
+            const body = `Student: ${email}\n\n${scoreText}\n\n---\nOnline Quiz System\nNovember 07, 2025 08:48 AM IST`;
+
+            const mailtoLink = `mailto:professor@college.edu.in?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+
+            setTimeout(() => {
+                alert('Email client opened. Please send to professor.\n\nIf no email opened, copy and send manually.');
+            }, 500);
+        }
+
+        // Initialize
+        showQuestion();
+    </script>
+</body>
+</html>
